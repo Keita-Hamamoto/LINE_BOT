@@ -1,11 +1,10 @@
-//<?php
-//echo "Hello Keita!KEN!Brown!"
-
-//Composerでインストールしたライブラリを一括読み込み
-//require_once_DIR_
-//?>
 
 <?php
+// Composerでインストールしたライブラリを一括読み込み
+require_once __DIR__ . '/vendor/autoload.php';
+
+
+
 
 //$accessToken = 'ここに「Channel Access Token」をコピペする';
 $accessToken = '4AuXRJ4JMOerQsUZoCM9CnXSWJT9WsaBeAcyVtZg9GELjqTHpfZAc3DL3513UxZlNTX7QRkE40dFB3pVr38broO7P3EIVTykXhY48KQxb+oH3OPK91QJhIceLMR1UKi0FvcRJjdU0fHZ/Uzt2+L5OwdB04t89/1O/w1cDnyilFU=';
