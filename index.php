@@ -27,7 +27,7 @@ if($message_type != "text") exit;
 
 //返信メッセージ
 //$return_message_text = "「" . $message_text . "」ホンマそれ。";
-$return_message_text = "スンマソ。";
+$return_message_text = "それな";
 
 
 //返信実行
