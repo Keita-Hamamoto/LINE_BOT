@@ -9,7 +9,7 @@ $httpClient = new \LINE\LINEBot\HTTPClient\CurlHTTPClient(getenv('4AuXRJ4JMOerQs
 
 // CurlHTTPClientとシークレットを使いLINEBotをインスタンス化
 //$bot = new \LINE\LINEBot($httpClient, ['channelSecret' => getenv('CHANNEL_SECRET')]);
-$bot = new \LINE\LINEBot($httpClient, ['channelSecret' => getenv('db717189a807df509bf393f788337322')]);
+$bot = new \LINE\LINEBot($httpClient, ['channelSecret' => db717189a807df509bf393f788337322]);
 // LINE Messaging APIがリクエストに付与した署名を取得
 $signature = $_SERVER['HTTP_' . \LINE\LINEBot\Constant\HTTPHeader::LINE_SIGNATURE];
 
