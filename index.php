@@ -27,7 +27,7 @@ if($message_type != "text") exit;
 
 //返信メッセージ
 //$return_message_text = "「" . $message_text . "」ホンマそれ。";
-$return_message_text = "ホンマそれ。";
+$return_message_text = "ドッグフード以外くれや。朝昼晩と同じもん食い続けてみろや。このチビが。";
 
 
 //返信実行
