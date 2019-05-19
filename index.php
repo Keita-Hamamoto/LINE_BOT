@@ -27,8 +27,8 @@ if($message_type != "text") exit;
 
 //返信メッセージ
 //$return_message_text = "「" . $message_text . "」ホンマそれ。";
-//$return_message_text = "それな";
-$return_message_text = "マジレスするとうまそう。";
+$return_message_text = "それな";
+//$return_message_text = "マジレスするとうまそう。";
 
 
 //返信実行
