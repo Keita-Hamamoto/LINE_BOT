@@ -4,12 +4,11 @@
 require_once __DIR__ . '/vendor/autoload.php';
 
 // アクセストークンを使いCurlHTTPClientをインスタンス化
-//$httpClient = new \LINE\LINEBot\HTTPClient\CurlHTTPClient(getenv('CHANNEL_ACCESS_TOKEN'));
-$httpClient = new \LINE\LINEBot\HTTPClient\CurlHTTPClient(getenv('4AuXRJ4JMOerQsUZoCM9CnXSWJT9WsaBeAcyVtZg9GELjqTHpfZAc3DL3513UxZlNTX7QRkE40dFB3pVr38broO7P3EIVTykXhY48KQxb+oH3OPK91QJhIceLMR1UKi0FvcRJjdU0fHZ/Uzt2+L5OwdB04t89/1O/w1cDnyilFU='));
+$httpClient = new \LINE\LINEBot\HTTPClient\CurlHTTPClient(getenv('CHANNEL_ACCESS_TOKEN'));
 
 // CurlHTTPClientとシークレットを使いLINEBotをインスタンス化
-//$bot = new \LINE\LINEBot($httpClient, ['channelSecret' => getenv('CHANNEL_SECRET')]);
-$bot = new \LINE\LINEBot($httpClient, ['channelSecret' => db717189a807df509bf393f788337322]);
+$bot = new \LINE\LINEBot($httpClient, ['channelSecret' => getenv('CHANNEL_SECRET')]);
+
 // LINE Messaging APIがリクエストに付与した署名を取得
 $signature = $_SERVER['HTTP_' . \LINE\LINEBot\Constant\HTTPHeader::LINE_SIGNATURE];
 
