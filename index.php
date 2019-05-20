@@ -19,7 +19,7 @@ $events = $bot->parseEventRequest(file_get_contents('php://input'), $signature);
 foreach ($events as $event) {
   // テキストを返信
   //$bot->replyText($event->getReplyToken(), 'TextMessage');
-  $bot->replyText($event->getReplyToken(), 'てやんでぃ！！！');
+  replyTextMessage($bot, $event->getReplyToken(), 'TextMessage');
 }
 
 // テキストを返信。引数はLINEBot、返信先、テキスト
