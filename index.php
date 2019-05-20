@@ -1,4 +1,4 @@
-//TextMessage・てやんでぃ！を返す
+//replyText関数からreplyMessage関数に変更
 //スタンプも返せる
 
 <?php
@@ -17,9 +17,14 @@ $signature = $_SERVER['HTTP_' . \LINE\LINEBot\Constant\HTTPHeader::LINE_SIGNATUR
 $events = $bot->parseEventRequest(file_get_contents('php://input'), $signature);
 // 配列に格納された各イベントをループで処理
 foreach ($events as $event) {
+
   // テキストを返信
   //$bot->replyText($event->getReplyToken(), 'TextMessage');
-  replyTextMessage($bot, $event->getReplyToken(), 'TextMessage');
+  //replyTextMessage($bot, $event->getReplyToken(), 'TextMessage');
+
+  // 画像を返信
+  replyImageMessage($bot, $event->getReplyToken(), 'https://' . $_SERVER['HTTP_HOST'] . '/imgs/original.jpg', 'https://' . $_SERVER['HTTP_HOST'] . '/imgs/preview.jpg');
+
 }
 
 // テキストを返信。引数はLINEBot、返信先、テキスト
@@ -31,6 +36,15 @@ function replyTextMessage($bot, $replyToken, $text) {
   if (!$response->isSucceeded()) {
     // エラー内容を出力
     error_log('Failed! '. $response->getHTTPStatus . ' ' . $response->getRawBody());
+  }
+}
+
+// 画像を返信。引数はLINEBot、返信先、画像URL、サムネイルURL
+function replyImageMessage($bot, $replyToken, $originalImageUrl, $previewImageUrl) {
+  // ImageMessageBuilderの引数は画像URL、サムネイルURL
+  $response = $bot->replyMessage($replyToken, new \LINE\LINEBot\MessageBuilder\ImageMessageBuilder($originalImageUrl, $previewImageUrl));
+  if (!$response->isSucceeded()) {
+    error_log('Failed!'. $response->getHTTPStatus . ' ' . $response->getRawBody());
   }
 }
 
