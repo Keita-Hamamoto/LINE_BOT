@@ -29,12 +29,12 @@ foreach ($events as $event) {
   // スタンプを返信_パッケージIDが1、ステッカーIDが1のステッカーを送信
   //replyStickerMessage($bot, $event->getReplyToken(), 1, 1);
   // 動画を返信
-  replyVideoMessage($bot, $event->getReplyToken(),
-   'https://' . $_SERVER['HTTP_HOST'] . '/videos/sample.mp4',
-   'https://' . $_SERVER['HTTP_HOST'] . '/videos/sample_preview.jpg');
+  //replyVideoMessage($bot, $event->getReplyToken(),
+  // 'https://' . $_SERVER['HTTP_HOST'] . '/videos/sample.mp4',
+  // 'https://' . $_SERVER['HTTP_HOST'] . '/videos/sample_preview.jpg');
 
   // オーディファイルを返信
-  //replyAudioMessage($bot, $event->getReplyToken(), 'https://' . $_SERVER['HTTP_HOST'] . '/audios/sample.m4a', 6000);
+  replyAudioMessage($bot, $event->getReplyToken(), 'https://' . $_SERVER['HTTP_HOST'] . '/audios/sample.m4a', 6000);
 
 
 
