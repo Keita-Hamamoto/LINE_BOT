@@ -28,10 +28,8 @@ if($message_type != "text") exit;
 
 //返信メッセージ
 //$return_message_text = "「" . $message_text . "」じゃねーよｗｗｗ";
-//$return_message_text = それな;
+$return_message_text = それな;
 
-
-$return_message_text = わいのことじゃないよな？うち出禁にするで。;
 
 
 //返信実行
