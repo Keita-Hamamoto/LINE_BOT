@@ -1,3 +1,4 @@
+//TextMessage・てやんでぃ！を返す
 <?php
 
 // Composerでインストールしたライブラリを一括読み込み
@@ -16,8 +17,7 @@ $events = $bot->parseEventRequest(file_get_contents('php://input'), $signature);
 foreach ($events as $event) {
   // テキストを返信
   //$bot->replyText($event->getReplyToken(), 'TextMessage');
-  $bot->replyText($event->getReplyToken(), 'てやんでぃ！');
+  $bot->replyText($event->getReplyToken(), 'てやんでぃ！！！');
 }
 
 ?>
-  
