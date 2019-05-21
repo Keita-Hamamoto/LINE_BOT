@@ -40,11 +40,10 @@ foreach ($events as $event) {
     //new \LINE\LINEBot\MessageBuilder\TextMessageBuilder('TextMessage'),
     //new \LINE\LINEBot\MessageBuilder\TextMessageBuilder('てやんでぃ！'),
     new \LINE\LINEBot\MessageBuilder\TextMessageBuilder('眠いわ。'),
-    new \LINE\LINEBot\MessageBuilder\StickerMessageBuilder(1, 1)
-    new \LINE\LINEBot\MessageBuilder\TextMessageBuilder('雨やし暇や。'),
+    new \LINE\LINEBot\MessageBuilder\TextMessageBuilder('雨やし暇や'),
     new \LINE\LINEBot\MessageBuilder\ImageMessageBuilder('https://' . $_SERVER['HTTP_HOST'] . '/imgs/original.jpg', 'https://' . $_SERVER['HTTP_HOST'] . '/imgs/preview.jpg'),
     new \LINE\LINEBot\MessageBuilder\LocationMessageBuilder('LINE', '東京都渋谷区渋谷2-21-1 ヒカリエ27階', 35.659025, 139.703473),
-    //new \LINE\LINEBot\MessageBuilder\StickerMessageBuilder(1, 1)
+    new \LINE\LINEBot\MessageBuilder\StickerMessageBuilder(1, 1)
   );
 
 
@@ -65,20 +64,6 @@ function replyTextMessage($bot, $replyToken, $text) {
   }
 }
 
-// スタンプを返信。引数はLINEBot、返信先、
-// スタンプのパッケージID、スタンプID
-function replyStickerMessage($bot, $replyToken, $packageId, $stickerId) {
-  // StickerMessageBuilderの引数はスタンプのパッケージID、スタンプID
-  $response = $bot->replyMessage($replyToken, new \LINE\LINEBot\MessageBuilder\StickerMessageBuilder($packageId, $stickerId));
-  if (!$response->isSucceeded()) {
-    error_log('Failed!'. $response->getHTTPStatus . ' ' . $response->getRawBody());
-  }
-}
-
-
-
-
-
 // 画像を返信。引数はLINEBot、返信先、画像URL、サムネイルURL
 function replyImageMessage($bot, $replyToken, $originalImageUrl, $previewImageUrl) {
   // ImageMessageBuilderの引数は画像URL、サムネイルURL
@@ -98,15 +83,15 @@ function replyLocationMessage($bot, $replyToken, $title, $address, $lat, $lon) {
   }
 }
 
-// // スタンプを返信。引数はLINEBot、返信先、
-// // スタンプのパッケージID、スタンプID
-// function replyStickerMessage($bot, $replyToken, $packageId, $stickerId) {
-//   // StickerMessageBuilderの引数はスタンプのパッケージID、スタンプID
-//   $response = $bot->replyMessage($replyToken, new \LINE\LINEBot\MessageBuilder\StickerMessageBuilder($packageId, $stickerId));
-//   if (!$response->isSucceeded()) {
-//     error_log('Failed!'. $response->getHTTPStatus . ' ' . $response->getRawBody());
-//   }
-// }
+// スタンプを返信。引数はLINEBot、返信先、
+// スタンプのパッケージID、スタンプID
+function replyStickerMessage($bot, $replyToken, $packageId, $stickerId) {
+  // StickerMessageBuilderの引数はスタンプのパッケージID、スタンプID
+  $response = $bot->replyMessage($replyToken, new \LINE\LINEBot\MessageBuilder\StickerMessageBuilder($packageId, $stickerId));
+  if (!$response->isSucceeded()) {
+    error_log('Failed!'. $response->getHTTPStatus . ' ' . $response->getRawBody());
+  }
+}
 
 // 動画を返信。引数はLINEBot、返信先、動画URL、サムネイルURL
 function replyVideoMessage($bot, $replyToken, $originalContentUrl, $previewImageUrl) {
