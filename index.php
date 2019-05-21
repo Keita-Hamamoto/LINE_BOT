@@ -43,7 +43,6 @@ foreach ($events as $event) {
   replyMultiMessage($bot, $event->getReplyToken(),
     //new \LINE\LINEBot\MessageBuilder\TextMessageBuilder('TextMessage'),
     //new \LINE\LINEBot\MessageBuilder\TextMessageBuilder('てやんでぃ！'),
-    new \LINE\LINEBot\MessageBuilder\TextMessageBuilder('おは。'),
     new \LINE\LINEBot\MessageBuilder\TextMessageBuilder('眠いわ。'),
     new \LINE\LINEBot\MessageBuilder\TextMessageBuilder('雨やし暇や'),
     new \LINE\LINEBot\MessageBuilder\ImageMessageBuilder('https://' . $_SERVER['HTTP_HOST'] . '/imgs/original.jpg', 'https://' . $_SERVER['HTTP_HOST'] . '/imgs/preview.jpg'),
