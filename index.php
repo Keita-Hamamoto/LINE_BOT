@@ -42,12 +42,12 @@ foreach ($events as $event) {
   // 複数のメッセージをまとめて返信
   replyMultiMessage($bot, $event->getReplyToken(),
     //new \LINE\LINEBot\MessageBuilder\TextMessageBuilder('TextMessage'),
-    //new \LINE\LINEBot\MessageBuilder\TextMessageBuilder('てやんでぃ！'),
+    new \LINE\LINEBot\MessageBuilder\TextMessageBuilder('てやんでぃ！'),
     new \LINE\LINEBot\MessageBuilder\TextMessageBuilder('ラーメン食べよ。'),
     new \LINE\LINEBot\MessageBuilder\TextMessageBuilder('雨やしホンマ暇や。'),
     new \LINE\LINEBot\MessageBuilder\ImageMessageBuilder('https://' . $_SERVER['HTTP_HOST'] . '/imgs/original.jpg', 'https://' . $_SERVER['HTTP_HOST'] . '/imgs/preview.jpg'),
     new \LINE\LINEBot\MessageBuilder\LocationMessageBuilder('LINE', '東京都渋谷区渋谷2-21-1 ヒカリエ27階', 35.659025, 139.703473),
-    new \LINE\LINEBot\MessageBuilder\StickerMessageBuilder(2, 1)
+    new \LINE\LINEBot\MessageBuilder\StickerMessageBuilder(1, 1)
   );
 
 
