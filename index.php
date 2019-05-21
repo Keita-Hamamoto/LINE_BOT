@@ -1,56 +1,69 @@
+//APIからHerokuに渡されるリクエストをコマンドプロンプトで確認
 <?php
+// Composerでインストールしたライブラリを一括読み込み
+require_once __DIR__ . '/vendor/autoload.php';
 
-require_once('./vendor/autoload.php');
+//　POSTメソッドで渡される値を取得、表示
+$inputString = file_get_contents('php://input');
+error_log($inputString);
+?>
 
-new LineMessage;
 
-class LineMessage{
+//じゃねーよ！！！BOT
 
-  private $token = '[Channel Access Token]';
-  private $secret = '[Channel Secret]';
-  private $profile_array = array(); //プロフィールを格納する配列 displayName:表示名 userId:ユーザ識別子 pictureUrl:画像URL statusMessage:ステータスメッセージ
 
-  private $replyToken;
-  private $userId;
-  private $httpClient;
-  private $bot;
+<?php
+//$accessToken = 'ここに「Channel Access Token」をコピペする';
+$accessToken = '4AuXRJ4JMOerQsUZoCM9CnXSWJT9WsaBeAcyVtZg9GELjqTHpfZAc3DL3513UxZlNTX7QRkE40dFB3pVr38broO7P3EIVTykXhY48KQxb+oH3OPK91QJhIceLMR1UKi0FvcRJjdU0fHZ/Uzt2+L5OwdB04t89/1O/w1cDnyilFU=';
 
-  function __construct(){
+//ユーザーからのメッセージ取得
+$json_string = file_get_contents('php://input');
+$json_object = json_decode($json_string);
 
-    $json_string = file_get_contents('php://input');
-    $jsonObj = json_decode($json_string);
-    $this->userId = $jsonObj->{"events"}[0]->{"source"}->{"userId"};
-    $this->replyToken = $jsonObj->{"events"}[0]->{"replyToken"};
+//取得データ
+$replyToken = $json_object->{"events"}[0]->{"replyToken"};        //返信用トークン
+$message_type = $json_object->{"events"}[0]->{"message"}->{"type"};    //メッセージタイプ
+$message_text = $json_object->{"events"}[0]->{"message"}->{"text"};    //メッセージ内容
 
-    $this->httpClient = new \LINE\LINEBot\HTTPClient\CurlHTTPClient($this->token);
-    $this->bot = new \LINE\LINEBot($this->httpClient, ['channelSecret' => $this->secret]);
+//メッセージタイプが「text」以外のときは何も返さず終了
+if($message_type != "text") exit;
 
-    $this->get_profile();
+//返信メッセージ
+//$return_message_text = "「" . $message_text . "」じゃねーよｗｗｗ";
+$return_message_text = それな;
 
-  }
 
-  function get_profile(){
 
-    $response = $this->bot->getProfile($this->userId);
+//返信実行
+sending_messages($accessToken, $replyToken, $message_type, $return_message_text);
+?>
+<?php
+//メッセージの送信
+function sending_messages($accessToken, $replyToken, $message_type, $return_message_text){
+    //レスポンスフォーマット
+    $response_format_text = [
+        "type" => $message_type,
+        "text" => $return_message_text
+    ];
 
-    if ($response->isSucceeded()) {
+    //ポストデータ
+    $post_data = [
+        "replyToken" => $replyToken,
+        "messages" => [$response_format_text]
+    ];
 
-      $profile = $response->getJSONDecodedBody();
-      $displayName = $profile['displayName'];
-      $userId = $profile['userId'];
-      $pictureUrl = $profile['pictureUrl'];
-      $statusMessage = $profile['statusMessage'];
-      $this->profile_array = array("displayName"=>$displayName,"userId"=>$userId,"pictureUrl"=>$pictureUrl,"statusMessage"=>$statusMessage);
-      $this->reply_message();
-    }
-  }
-
-  function reply_message(){
-
-    $textMessageBuilder = new \LINE\LINEBot\MessageBuilder\TextMessageBuilder($this->profile_array["displayName"]."さんこんにちは！");
-    $response = $this->bot->replyMessage($this->replyToken, $textMessageBuilder);
-  }
-
+    //curl実行
+    $ch = curl_init("https://api.line.me/v2/bot/message/reply");
+    curl_setopt($ch, CURLOPT_POST, true);
+    curl_setopt($ch, CURLOPT_CUSTOMREQUEST, 'POST');
+    curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
+    curl_setopt($ch, CURLOPT_POSTFIELDS, json_encode($post_data));
+    curl_setopt($ch, CURLOPT_HTTPHEADER, array(
+        'Content-Type: application/json; charser=UTF-8',
+        'Authorization: Bearer ' . $accessToken
+    ));
+    $result = curl_exec($ch);
+    curl_close($ch);
 }
 
 ?>
