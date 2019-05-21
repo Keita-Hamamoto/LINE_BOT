@@ -1,134 +1,69 @@
-//画像、動画、音声、位置情報、一括複数を返す
-//replyText関数からreplyMessage関数に変更
-//スタンプも返せる
-
+//APIからHerokuに渡されるリクエストをコマンドプロンプトで確認
 <?php
-
 // Composerでインストールしたライブラリを一括読み込み
 require_once __DIR__ . '/vendor/autoload.php';
 
 //　POSTメソッドで渡される値を取得、表示
 $inputString = file_get_contents('php://input');
 error_log($inputString);
+?>
 
-// アクセストークンを使いCurlHTTPClientをインスタンス化
-$httpClient = new \LINE\LINEBot\HTTPClient\CurlHTTPClient(getenv('CHANNEL_ACCESS_TOKEN'));
-// CurlHTTPClientとシークレットを使いLINEBotをインスタンス化
-$bot = new \LINE\LINEBot($httpClient, ['channelSecret' => getenv('CHANNEL_SECRET')]);
-// LINE Messaging APIがリクエストに付与した署名を取得
-$signature = $_SERVER['HTTP_' . \LINE\LINEBot\Constant\HTTPHeader::LINE_SIGNATURE];
 
-// 署名が正当かチェック。正当であればリクエストをパースし配列へ
-$events = $bot->parseEventRequest(file_get_contents('php://input'), $signature);
-// 配列に格納された各イベントをループで処理
-foreach ($events as $event) {
+//じゃねーよ！！！BOT
 
-  // テキストを返信
-  //$bot->replyText($event->getReplyToken(), 'TextMessage');
-  //replyTextMessage($bot, $event->getReplyToken(), 'TextMessage');
-  // 画像を返信
-  //replyImageMessage($bot, $event->getReplyToken(), 'https://' . $_SERVER['HTTP_HOST'] . '/imgs/original.jpg', 'https://' . $_SERVER['HTTP_HOST'] . '/imgs/preview.jpg');
-  // 位置情報を返信
-  //replyLocationMessage($bot, $event->getReplyToken(), 'LINE', '東京都渋谷区渋谷2-21-1 ヒカリエ27階', 35.659025, 139.703473);
-  // スタンプを返信_パッケージIDが1、ステッカーIDが1のステッカーを送信
-  //replyStickerMessage($bot, $event->getReplyToken(), 1, 1);
-  // 動画を返信
-  //replyVideoMessage($bot, $event->getReplyToken(),
-  // 'https://' . $_SERVER['HTTP_HOST'] . '/videos/sample.mp4',
-  // 'https://' . $_SERVER['HTTP_HOST'] . '/videos/sample_preview.jpg');
-  // オーディファイルを返信
-  //replyAudioMessage($bot, $event->getReplyToken(), 'https://' . $_SERVER['HTTP_HOST'] . '/audios/sample.m4a', 6000);
 
-  // 複数のメッセージをまとめて返信
-  replyMultiMessage($bot, $event->getReplyToken(),
-    //new \LINE\LINEBot\MessageBuilder\TextMessageBuilder('TextMessage'),
-    new \LINE\LINEBot\MessageBuilder\TextMessageBuilder('てやんでぃ！'),
-    new \LINE\LINEBot\MessageBuilder\TextMessageBuilder('ラーメン食べよ！'),
-    //new \LINE\LINEBot\MessageBuilder\TextMessageBuilder('雨やしホンマ暇や。'),
-    new \LINE\LINEBot\MessageBuilder\ImageMessageBuilder('https://' . $_SERVER['HTTP_HOST'] . '/imgs/original.jpg', 'https://' . $_SERVER['HTTP_HOST'] . '/imgs/preview.jpg'),
-    new \LINE\LINEBot\MessageBuilder\LocationMessageBuilder('LINE', '東京都渋谷区渋谷2-21-1 ヒカリエ27階', 35.659025, 139.703473),
-    new \LINE\LINEBot\MessageBuilder\StickerMessageBuilder(1, 1)
-  );
+<?php
+//$accessToken = 'ここに「Channel Access Token」をコピペする';
+$accessToken = '4AuXRJ4JMOerQsUZoCM9CnXSWJT9WsaBeAcyVtZg9GELjqTHpfZAc3DL3513UxZlNTX7QRkE40dFB3pVr38broO7P3EIVTykXhY48KQxb+oH3OPK91QJhIceLMR1UKi0FvcRJjdU0fHZ/Uzt2+L5OwdB04t89/1O/w1cDnyilFU=';
+
+//ユーザーからのメッセージ取得
+$json_string = file_get_contents('php://input');
+$json_object = json_decode($json_string);
+
+//取得データ
+$replyToken = $json_object->{"events"}[0]->{"replyToken"};        //返信用トークン
+$message_type = $json_object->{"events"}[0]->{"message"}->{"type"};    //メッセージタイプ
+$message_text = $json_object->{"events"}[0]->{"message"}->{"text"};    //メッセージ内容
+
+//メッセージタイプが「text」以外のときは何も返さず終了
+if($message_type != "text") exit;
+
+//返信メッセージ
+//$return_message_text = "「" . $message_text . "」じゃねーよｗｗｗ";
+$return_message_text = それな;
 
 
 
+//返信実行
+sending_messages($accessToken, $replyToken, $message_type, $return_message_text);
+?>
+<?php
+//メッセージの送信
+function sending_messages($accessToken, $replyToken, $message_type, $return_message_text){
+    //レスポンスフォーマット
+    $response_format_text = [
+        "type" => $message_type,
+        "text" => $return_message_text
+    ];
 
+    //ポストデータ
+    $post_data = [
+        "replyToken" => $replyToken,
+        "messages" => [$response_format_text]
+    ];
 
-}
-
-// テキストを返信。引数はLINEBot、返信先、テキスト
-function replyTextMessage($bot, $replyToken, $text) {
-  // 返信を行いレスポンスを取得
-  // TextMessageBuilderの引数はテキスト
-  $response = $bot->replyMessage($replyToken, new \LINE\LINEBot\MessageBuilder\TextMessageBuilder($text));
-  // レスポンスが異常な場合
-  if (!$response->isSucceeded()) {
-    // エラー内容を出力
-    error_log('Failed! '. $response->getHTTPStatus . ' ' . $response->getRawBody());
-  }
-}
-
-// 画像を返信。引数はLINEBot、返信先、画像URL、サムネイルURL
-function replyImageMessage($bot, $replyToken, $originalImageUrl, $previewImageUrl) {
-  // ImageMessageBuilderの引数は画像URL、サムネイルURL
-  $response = $bot->replyMessage($replyToken, new \LINE\LINEBot\MessageBuilder\ImageMessageBuilder($originalImageUrl, $previewImageUrl));
-  if (!$response->isSucceeded()) {
-    error_log('Failed!'. $response->getHTTPStatus . ' ' . $response->getRawBody());
-  }
-}
-
-// 位置情報を返信。引数はLINEBot、返信先、タイトル、住所、
-// 緯度、経度
-function replyLocationMessage($bot, $replyToken, $title, $address, $lat, $lon) {
-  // LocationMessageBuilderの引数はダイアログのタイトル、住所、緯度、経度
-  $response = $bot->replyMessage($replyToken, new \LINE\LINEBot\MessageBuilder\LocationMessageBuilder($title, $address, $lat, $lon));
-  if (!$response->isSucceeded()) {
-    error_log('Failed!'. $response->getHTTPStatus . ' ' . $response->getRawBody());
-  }
-}
-
-// スタンプを返信。引数はLINEBot、返信先、
-// スタンプのパッケージID、スタンプID
-function replyStickerMessage($bot, $replyToken, $packageId, $stickerId) {
-  // StickerMessageBuilderの引数はスタンプのパッケージID、スタンプID
-  $response = $bot->replyMessage($replyToken, new \LINE\LINEBot\MessageBuilder\StickerMessageBuilder($packageId, $stickerId));
-  if (!$response->isSucceeded()) {
-    error_log('Failed!'. $response->getHTTPStatus . ' ' . $response->getRawBody());
-  }
-}
-
-// 動画を返信。引数はLINEBot、返信先、動画URL、サムネイルURL
-function replyVideoMessage($bot, $replyToken, $originalContentUrl, $previewImageUrl) {
-  // VideoMessageBuilderの引数は動画URL、サムネイルURL
-  $response = $bot->replyMessage($replyToken, new \LINE\LINEBot\MessageBuilder\VideoMessageBuilder($originalContentUrl, $previewImageUrl));
-  if (!$response->isSucceeded()) {
-    error_log('Failed! '. $response->getHTTPStatus . ' ' . $response->getRawBody());
-  }
-}
-
-// オーディオファイルを返信。引数はLINEBot、返信先、
-// ファイルのURL、ファイルの再生時間
-function replyAudioMessage($bot, $replyToken, $originalContentUrl, $audioLength) {
-  // AudioMessageBuilderの引数はファイルのURL、ファイルの再生時間
-  $response = $bot->replyMessage($replyToken, new \LINE\LINEBot\MessageBuilder\AudioMessageBuilder($originalContentUrl, $audioLength));
-  if (!$response->isSucceeded()) {
-    error_log('Failed! '. $response->getHTTPStatus . ' ' . $response->getRawBody());
-  }
-}
-
-// 複数のメッセージをまとめて返信。引数はLINEBot、
-// 返信先、メッセージ(可変長引数)
-function replyMultiMessage($bot, $replyToken, ...$msgs) {
-  // MultiMessageBuilderをインスタンス化
-  $builder = new \LINE\LINEBot\MessageBuilder\MultiMessageBuilder();
-  // ビルダーにメッセージを全て追加
-  foreach($msgs as $value) {
-    $builder->add($value);
-  }
-  $response = $bot->replyMessage($replyToken, $builder);
-  if (!$response->isSucceeded()) {
-    error_log('Failed!'. $response->getHTTPStatus . ' ' . $response->getRawBody());
-  }
+    //curl実行
+    $ch = curl_init("https://api.line.me/v2/bot/message/reply");
+    curl_setopt($ch, CURLOPT_POST, true);
+    curl_setopt($ch, CURLOPT_CUSTOMREQUEST, 'POST');
+    curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
+    curl_setopt($ch, CURLOPT_POSTFIELDS, json_encode($post_data));
+    curl_setopt($ch, CURLOPT_HTTPHEADER, array(
+        'Content-Type: application/json; charser=UTF-8',
+        'Authorization: Bearer ' . $accessToken
+    ));
+    $result = curl_exec($ch);
+    curl_close($ch);
 }
 
 ?>
