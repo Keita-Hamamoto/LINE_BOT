@@ -30,7 +30,7 @@ if($message_type != "text") exit;
 
 //返信メッセージ
 $return_message_text = "「" . $message_text . "」←おもろないわ";
-$return_message_text = というかちんこかゆい。;
+//$return_message_text = というかちんこかゆい。;
 
 //$return_message_text = "「" . $message_text . "」じゃねーよｗｗｗ";
 //$return_message_text = それな;
