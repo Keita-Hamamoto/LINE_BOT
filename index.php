@@ -29,8 +29,9 @@ $message_text = $json_object->{"events"}[0]->{"message"}->{"text"};    //メッ�
 if($message_type != "text") exit;
 
 //返信メッセージ
+$return_message_text = "「" . $message_text . "」←おもろないわ";
 //$return_message_text = "「" . $message_text . "」じゃねーよｗｗｗ";
-$return_message_text = それな;
+//$return_message_text = それな;
 
 
 
